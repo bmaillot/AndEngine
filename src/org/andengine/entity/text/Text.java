@@ -205,7 +205,7 @@ public class Text extends RectangularShape {
 		}
 		this.mLineWidthMaximum = maximumLineWidth;
 
-		if(this.mTextOptions.mAutoWrap == AutoWrap.NONE) {
+		if(this.mTextOptions.mAutoWrapWidth == 0) {
 			this.mLineAlignmentWidth = this.mLineWidthMaximum;
 		} else {
 			this.mLineAlignmentWidth = this.mTextOptions.mAutoWrapWidth;
