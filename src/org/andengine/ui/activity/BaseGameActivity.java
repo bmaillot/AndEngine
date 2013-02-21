@@ -134,7 +134,9 @@ public abstract class BaseGameActivity extends BaseActivity implements IGameInte
 
 					BaseGameActivity.this.onGameCreated();
 				} catch(final Throwable pThrowable) {
-					Debug.e(BaseGameActivity.this.getClass().getSimpleName() + ".onGameCreated failed." + " @(Thread: '" + Thread.currentThread().getName() + "')", pThrowable);
+					if(BuildConfig.DEBUG)
+						Debug.e(BaseGameActivity.this.getClass().getSimpleName() + ".onGameCreated failed." + " @(Thread: '" + Thread.currentThread().getName() + "')", pThrowable);
+					BaseGameActivity.this.finish();
 				}
 
 				BaseGameActivity.this.callGameResumedOnUIThread();
