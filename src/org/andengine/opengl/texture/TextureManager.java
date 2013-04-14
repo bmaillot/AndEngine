@@ -13,6 +13,7 @@ import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -248,18 +249,21 @@ public class TextureManager {
 
 		if(texturesToBeLoadedCount > 0) {
 			for(int i = texturesToBeLoadedCount - 1; i >= 0; i--) {
+				
+				//long frame = System.currentTimeMillis();
 				final ITexture textureToBeLoaded = texturesToBeLoaded.remove(i);
 				if(!textureToBeLoaded.isLoadedToHardware()) {
 					try {
 						textureToBeLoaded.loadToHardware(pGLState);
 
 						/* Execute the warm-up to ensure the texture data is actually moved to the GPU. */
-						this.mTextureWarmUpVertexBufferObject.warmup(pGLState, textureToBeLoaded);
+						//this.mTextureWarmUpVertexBufferObject.warmup(pGLState, textureToBeLoaded);
 					} catch (final IOException e) {
 						Debug.e(e);
 					}
 				}
 				texturesLoaded.add(textureToBeLoaded);
+				//Log.w("TOTO", "Texture " + i + " (" + textureToBeLoaded.getWidth() + "x" + textureToBeLoaded.getHeight() + ")loaded in " + (System.currentTimeMillis()-frame) );
 			}
 		}
 
