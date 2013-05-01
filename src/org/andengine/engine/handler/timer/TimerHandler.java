@@ -107,12 +107,6 @@ public class TimerHandler implements IUpdateHandler {
 		this.mTimerSecondsElapsed = 0;
 	}
 	
-	@Override
-	protected void onTimePassed()
-	{
-		this.mTimerCallback.onTimePassed(this);
-	}
-	
 	// ===========================================================
 	// Methods
 	// ===========================================================
