@@ -88,14 +88,14 @@ public class TimerHandler implements IUpdateHandler {
 			this.mTimerSecondsElapsed += pSecondsElapsed;
 			while(this.mTimerSecondsElapsed >= this.mTimerSeconds) {
 				this.mTimerSecondsElapsed -= this.mTimerSeconds;
-				this.mTimerCallback.onTimePassed(this);
+				onTimePassed();
 			}
 		} else {
 			if(!this.mTimerCallbackTriggered) {
 				this.mTimerSecondsElapsed += pSecondsElapsed;
 				if(this.mTimerSecondsElapsed >= this.mTimerSeconds) {
 					this.mTimerCallbackTriggered = true;
-					this.mTimerCallback.onTimePassed(this);
+					onTimePassed();
 				}
 			}
 		}
@@ -110,6 +110,12 @@ public class TimerHandler implements IUpdateHandler {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	protected void onTimePassed()
+	{
+		this.mTimerCallback.onTimePassed(this);
+	}
+	
 
 	// ===========================================================
 	// Inner and Anonymous Classes
