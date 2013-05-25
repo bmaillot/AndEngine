@@ -15,6 +15,7 @@ import org.andengine.util.adt.list.SmartList;
 import org.andengine.util.adt.transformation.Transformation;
 import org.andengine.util.call.ParameterCallable;
 import org.andengine.util.color.Color;
+import org.andengine.util.debug.Debug;
 
 
 /**
@@ -633,8 +634,13 @@ public class Entity implements IEntity {
 		if(this.mChildren == null) {
 			return null;
 		}
-		synchronized (this.mChildren) {
+		try {
 			return this.mChildren.get(this.mChildren.size() - 1);
+		}
+		catch (IndexOutOfBoundsException e)
+		{
+			Debug.e("IndexOutOfBoundsException in Entity.onManagedDraw()");
+			return null;
 		}
 	}
 
@@ -718,9 +724,8 @@ public class Entity implements IEntity {
 		if(this.mChildren == null) {
 			return;
 		}
-		synchronized (this.mChildren) {
-			this.mChildren.clear(Entity.PARAMETERCALLABLE_DETACHCHILD);
-		}
+		
+		this.mChildren.clear(Entity.PARAMETERCALLABLE_DETACHCHILD);
 	}
 
 	@Override
@@ -731,9 +736,7 @@ public class Entity implements IEntity {
 			this.allocateChildren();
 		}
 		
-		synchronized (this.mChildren) {
-			this.mChildren.add(pEntity);
-		}
+		this.mChildren.add(pEntity);
 		
 		pEntity.setParent(this);
 		pEntity.onAttached();
@@ -769,9 +772,8 @@ public class Entity implements IEntity {
 		if(this.mChildren == null) {
 			return false;
 		}
-		synchronized (this.mChildren) {
-			return this.mChildren.remove(pEntity, Entity.PARAMETERCALLABLE_DETACHCHILD);
-		}
+		
+		return this.mChildren.remove(pEntity, Entity.PARAMETERCALLABLE_DETACHCHILD);
 	}
 
 	@Override
@@ -779,7 +781,7 @@ public class Entity implements IEntity {
 		if(this.mChildren == null) {
 			return null;
 		}
-		synchronized (this.mChildren) {
+		try {
 			for(int i = this.mChildren.size() - 1; i >= 0; i--) {
 				if(this.mChildren.get(i).getTag() == pTag) {
 					final IEntity removed = this.mChildren.remove(i);
@@ -787,6 +789,9 @@ public class Entity implements IEntity {
 					return removed;
 				}
 			}
+		} catch (IndexOutOfBoundsException e)
+		{
+			Debug.e("IndexOutOfBoundsException in Entity.onManagedDraw()");
 		}
 		return null;
 	}
@@ -796,9 +801,7 @@ public class Entity implements IEntity {
 		if(this.mChildren == null) {
 			return null;
 		}
-		synchronized (this.mChildren) {
-			return this.mChildren.remove(pEntityMatcher, Entity.PARAMETERCALLABLE_DETACHCHILD);
-		}
+		return this.mChildren.remove(pEntityMatcher, Entity.PARAMETERCALLABLE_DETACHCHILD);
 	}
 
 	@Override
@@ -806,9 +809,7 @@ public class Entity implements IEntity {
 		if(this.mChildren == null) {
 			return false;
 		}
-		synchronized (this.mChildren) {
-			return this.mChildren.removeAll(pEntityMatcher, Entity.PARAMETERCALLABLE_DETACHCHILD);
-		}
+		return this.mChildren.removeAll(pEntityMatcher, Entity.PARAMETERCALLABLE_DETACHCHILD);
 	}
 
 	@Override
@@ -1372,7 +1373,7 @@ public class Entity implements IEntity {
 					this.mChildrenSortPending = false;
 				}
 				
-				synchronized (this.mChildren) {
+				try {
 					final int childCount = children.size();
 					int i = 0;
 
@@ -1395,6 +1396,10 @@ public class Entity implements IEntity {
 							children.get(i).onDraw(pGLState, pCamera);
 						}
 					}
+				}
+				catch (IndexOutOfBoundsException e)
+				{
+					Debug.e("IndexOutOfBoundsException in Entity.onManagedDraw()");
 				}
 			}
 		}
