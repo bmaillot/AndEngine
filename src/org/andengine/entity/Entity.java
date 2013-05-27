@@ -639,7 +639,7 @@ public class Entity implements IEntity {
 		}
 		catch (IndexOutOfBoundsException e)
 		{
-			Debug.e("IndexOutOfBoundsException in Entity.onManagedDraw()");
+			Debug.e("IndexOutOfBoundsException in Entity.getLastChild()");
 			return null;
 		}
 	}
@@ -791,7 +791,7 @@ public class Entity implements IEntity {
 			}
 		} catch (IndexOutOfBoundsException e)
 		{
-			Debug.e("IndexOutOfBoundsException in Entity.onManagedDraw()");
+			Debug.e("IndexOutOfBoundsException in Entity.detachChild()");
 		}
 		return null;
 	}
@@ -1424,8 +1424,14 @@ public class Entity implements IEntity {
 		if((this.mChildren != null) && !this.mChildrenIgnoreUpdate) {
 			final SmartList<IEntity> entities = this.mChildren;
 			final int entityCount = entities.size();
-			for(int i = 0; i < entityCount; i++) {
-				entities.get(i).onUpdate(pSecondsElapsed);
+			
+			try {
+				for(int i = 0; i < entityCount; i++)
+					entities.get(i).onUpdate(pSecondsElapsed);
+			}
+			catch (IndexOutOfBoundsException e)
+			{
+				Debug.e("IndexOutOfBoundsException in Entity.onManagedUpdate()");
 			}
 		}
 	}
