@@ -31,6 +31,9 @@ public class RenderSurfaceView extends GLSurfaceView {
 
 	public RenderSurfaceView(final Context pContext) {
 		super(pContext);
+		
+		if(android.os.Build.VERSION.SDK_INT >= 11)
+			this.setPreserveEGLContextOnPause(true);
 
 		this.setEGLContextClientVersion(2);
 	}

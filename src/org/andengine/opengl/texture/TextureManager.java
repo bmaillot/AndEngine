@@ -248,9 +248,11 @@ public class TextureManager {
 		final int texturesToBeLoadedCount = texturesToBeLoaded.size();
 
 		if(texturesToBeLoadedCount > 0) {
+			long initTime = System.currentTimeMillis();
+			
 			for(int i = texturesToBeLoadedCount - 1; i >= 0; i--) {
 				
-				//long frame = System.currentTimeMillis();
+				long frame = System.currentTimeMillis();
 				final ITexture textureToBeLoaded = texturesToBeLoaded.remove(i);
 				if(!textureToBeLoaded.isLoadedToHardware()) {
 					try {
@@ -263,8 +265,10 @@ public class TextureManager {
 					}
 				}
 				texturesLoaded.add(textureToBeLoaded);
-				//Log.w("TOTO", "Texture " + i + " (" + textureToBeLoaded.getWidth() + "x" + textureToBeLoaded.getHeight() + ")loaded in " + (System.currentTimeMillis()-frame) );
+				Log.w("TOTO", "Texture " + i + " (" + textureToBeLoaded.getWidth() + "x" + textureToBeLoaded.getHeight() + ")loaded in " + (System.currentTimeMillis()-frame) );
 			}
+			
+			Log.w("TOTO", "Total load time" + (System.currentTimeMillis()-initTime) );
 		}
 
 		/* Then unload pending Textures. */

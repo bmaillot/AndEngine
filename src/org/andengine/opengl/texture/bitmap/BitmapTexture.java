@@ -19,6 +19,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
+import android.util.Log;
 
 /**
  * (c) Zynga 2011
@@ -117,7 +118,9 @@ public class BitmapTexture extends Texture {
 		if(preMultipyAlpha) {
 			GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
 		} else {
+			long t = System.currentTimeMillis();
 			pGLState.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0, this.mPixelFormat);
+			Log.w("TOTOO", "Time: " + Long.toString(System.currentTimeMillis() - t));
 		}
 
 		if(!useDefaultAlignment) {
